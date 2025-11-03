@@ -600,16 +600,14 @@ impl AppRow {
             max_event_payload_in_kb: self.max_event_payload_in_kb,
             max_event_batch_size: self.max_event_batch_size,
             enable_user_authentication: self.enable_user_authentication,
-            webhooks: self
-                .webhooks
-                .and_then(|json| {
-                    serde_json::from_value::<Vec<Webhook>>(json)
-                        .map_err(|e| {
-                            tracing::warn!("Failed to parse webhooks JSON: {}", e);
-                            e
-                        })
-                        .ok()
-                }),
+            webhooks: self.webhooks.and_then(|json| {
+                serde_json::from_value::<Vec<Webhook>>(json)
+                    .map_err(|e| {
+                        tracing::warn!("Failed to parse webhooks JSON: {}", e);
+                        e
+                    })
+                    .ok()
+            }),
             enable_watchlist_events: self.enable_watchlist_events,
             allowed_origins: self
                 .allowed_origins
